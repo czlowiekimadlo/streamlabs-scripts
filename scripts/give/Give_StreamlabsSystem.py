@@ -101,7 +101,7 @@ def HasEnoughCurrency(data):
     fee = CalculateFee(amount)
     wealth = int(Parent.GetPoints(data.User))
 
-    if wealth < amount + fee:
+    if wealth < amount + fee or amount < 0:
         return False
     return True
 
@@ -140,7 +140,7 @@ def CalculateFee(amount):
     FeeBase = 0.01
     TransferRate = FeeBase * ScriptSettings.Fee
     if TransferRate > 0:
-        TransferFee = amount * TransferRate
+        TransferFee = float(amount) * TransferRate
         return math.ceil(TransferFee)
     return 0
 
