@@ -8,6 +8,7 @@
 import codecs
 import json
 import os
+import math
 #---------------------------------------
 # [Required] Script information
 #---------------------------------------
@@ -136,5 +137,10 @@ def TransferFunds(data):
 
 def CalculateFee(amount):
     """Calculate fee for a given amount"""
+    FeeBase = 0.01
+    TransferRate = FeeBase * ScriptSettings.Fee
+    if TransferRate > 0:
+        TransferFee = amount * TransferRate
+        return math.ceil(TransferFee)
     return 0
 
