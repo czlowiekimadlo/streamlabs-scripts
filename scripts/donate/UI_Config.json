@@ -1,0 +1,66 @@
+{
+  "output_file": "settings.json",
+  "OnlyLive": {
+    "type": "checkbox",
+    "value": false,
+    "label": "Only when live",
+    "tooltip": "Command is only active when stream is live",
+    "group": "General"
+  },
+  "Command": {
+    "type": "textbox",
+    "value": "!give",
+    "label": "Command Name",
+    "tooltip": "The command the bot will respond to",
+    "group": "General"
+  },
+  "SuccessResponse": {
+    "type": "textbox",
+    "value": "{0} has has donated {1} {2}!",
+    "label": "Donation response",
+    "tooltip": "Message send when the donation succeeds.",
+    "group": "General"
+  },
+  "FailResponse": {
+    "type": "textbox",
+    "value": "{0} does not have enough {1} to donate {2} {3}",
+    "label": "Fail response",
+    "tooltip": "Message sent if user does not have enough currency.",
+    "group": "General"
+  },
+  "DonateGoal": {
+    "type": "numberbox",
+    "value": 100,
+    "label": "Donate goal",
+    "tooltip": "How much you want to gather.",
+    "group": "General"
+  },
+  "DonateValue": {
+    "type": "numberbox",
+    "value": 0,
+    "label": "Current donate value",
+    "tooltip": "Current donations total.",
+    "group": "General"
+  },
+  "DonateSound": {
+    "type": "textbox",
+    "value": "",
+    "label": "Donation Sound",
+    "tooltip": "Sound effect to play on donation.",
+    "group": "General"
+  },
+  "CurrencyName": {
+    "type": "textbox",
+    "value": "USD",
+    "label": "Currency name",
+    "tooltip": "Currency being collected.",
+    "group": "General"
+  },
+  "ConversionRate": {
+    "type": "numberbox",
+    "value": 1,
+    "label": "Currency exchange rate",
+    "tooltip": "Currency exchange rate.",
+    "group": "General"
+  },
+}

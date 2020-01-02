@@ -1,0 +1,9 @@
+
+.standard__current__amount {
+  text-align: center;
+}
+
+#goal-bar {
+  height: 100%;
+  margin-top: -48px;
+}
