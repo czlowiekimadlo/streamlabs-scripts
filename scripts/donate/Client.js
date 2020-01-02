@@ -55,10 +55,13 @@ function connectWebsocket() {
     if (socketMessage.event == "EVENT_DONATION") {
       var eventData = JSON.parse(socketMessage.data);
 
-      $("#goal-current").html(eventData.value + "/" + eventData.goal + " " + settings.CurrencyName)
-      $("#sound").html("<embed src=\"" + settings.DonateSound + "\" hidden=\"true\" />");
-      $('#goal-bar').css('width', eventData.progress + "%")
-
+      $("#goal-current").html(settings.GoalText + " " + eventData.value + "/" + eventData.goal + " " + settings.CurrencyName);
+      $('#goal-bar').css('width', eventData.progress + "%");
+      if (eventData.quiet == false) {
+        $("#sound").html("<embed src=\"" + settings.DonateSound + "\" hidden=\"true\" />");
+      } else {
+        $("#sound").html("");
+      }
     }
   }
 

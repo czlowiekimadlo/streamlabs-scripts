@@ -36,6 +36,7 @@ class Settings:
         else: #set variables if no custom settings file is found
             self.OnlyLive = False
             self.Command = "!donate"
+            self.GoalText = ""
             self.SuccessResponse = "{0} has has donated {1} {2}!"
             self.FailResponse = "{0} does not have enough {1} to donate {2} {3}"
             self.DonateGoal = 100
@@ -66,12 +67,12 @@ def ReloadSettings(jsonData):
     """Reload settings on pressing the save button"""
     global ScriptSettings
     ScriptSettings.Reload(jsonData)
-    self.SendDonationWebsocket()
+    SendDonationWebsocket(True)
 
 def SaveSettings():
     """Save settings on pressing the save button"""
     Settings.Save(ScriptSettings, settingsfile)
-    self.SendDonationWebsocket()
+    SendDonationWebsocket(True)
 
 #---------------------------------------
 # [Required] functions
@@ -94,27 +95,29 @@ def Execute(data):
 
 def Tick():
     """Required tick function"""
+    #SendDonationWebsocket(True)
     return
 
 #---------------------------------------
 # Logic functions
 #---------------------------------------
 
-def SendDonationWebsocket():
+def SendDonationWebsocket(quiet=True):
     """Broadcast WebSocket Event"""
-    progress = math.floor((ScriptSettings.DonateValue / ScriptSettings.DonateGoal) * 100)
+    progress = math.floor((float(ScriptSettings.DonateValue) / float(ScriptSettings.DonateGoal)) * 100)
     if progress > 100:
             progress = 100
     payload = {
         "progress": progress,
         "goal": ScriptSettings.DonateGoal,
         "value": ScriptSettings.DonateValue,
+        "quiet": quiet,
     }
     Parent.BroadcastWsEvent("EVENT_DONATION", json.dumps(payload))
 
 def HasEnoughCurrency(data):
     """Returns true if user has enough currency"""
-    amount = int(data.GetParam(2)) * ScriptSettings.ConversionRate
+    amount = int(data.GetParam(1)) * ScriptSettings.ConversionRate
     wealth = int(Parent.GetPoints(data.User))
 
     if wealth < amount or amount < 0:
@@ -125,7 +128,7 @@ def HasEnoughCurrency(data):
 def SendFailResponse(data):
     """Fail"""
     currency = Parent.GetCurrencyName()
-    amount = int(data.GetParam(2))
+    amount = int(data.GetParam(1))
     realCurrencty = ScriptSettings.CurrencyName
     Message = ScriptSettings.FailResponse.format(data.UserName, currency, amount, realCurrencty)
     Parent.SendStreamMessage(Message)
@@ -134,11 +137,12 @@ def SendFailResponse(data):
 def TransferFunds(data):
     """Success"""
     currency = ScriptSettings.CurrencyName
-    amount = data.GetParam(2)
+    amount = data.GetParam(1)
 
     Parent.RemovePoints(data.User, data.UserName, int(amount) * ScriptSettings.ConversionRate)
     Message = ScriptSettings.SuccessResponse.format(data.UserName, amount, currency)
     Parent.SendStreamMessage(Message)
 
-    ScriptSettings.DonateValue += amount
-    self.SaveSettings()
+    ScriptSettings.DonateValue += int(amount)
+    SendDonationWebsocket(False)
+    SaveSettings()
