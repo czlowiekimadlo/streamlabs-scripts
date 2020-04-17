@@ -28,6 +28,13 @@
     "tooltip": "Message sent if user does not have enough currency.",
     "group": "General"
   },
+  "InvalidResponse": {
+    "type": "textbox",
+    "value": "{0} is not a valid amount.",
+    "label": "Invalid response",
+    "tooltip": "Message sent if user tries something funky.",
+    "group": "General"
+  },
   "InactiveResponse": {
     "type": "textbox",
     "value": "{0} is not currently active.",
