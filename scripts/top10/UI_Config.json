@@ -1,0 +1,24 @@
+{
+  "output_file": "settings.json",
+  "OnlyLive": {
+    "type": "checkbox",
+    "value": false,
+    "label": "Only when live",
+    "tooltip": "Command is only active when stream is live",
+    "group": "General"
+  },
+  "Command": {
+    "type": "textbox",
+    "value": "!top",
+    "label": "Command Name",
+    "tooltip": "The command the bot will respond to",
+    "group": "General"
+  },
+  "TopSize": {
+    "type": "textbox",
+    "value": "5",
+    "label": "Top list size",
+    "tooltip": "Size of the list of top point owners.",
+    "group": "General"
+  },
+}
