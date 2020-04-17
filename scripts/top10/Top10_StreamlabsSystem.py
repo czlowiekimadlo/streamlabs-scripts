@@ -88,7 +88,7 @@ def Execute(data):
     chat_input = data.GetParam(0)
     if data.IsChatMessage() and chat_input.lower() == ScriptSettings.Command.lower():
         data = get_top_scores()
-        send_top_response()
+        send_top_response(data)
     return
 
 
@@ -100,7 +100,7 @@ def Tick():
 # ---------------------------------------
 # Logic functions
 # ---------------------------------------
-def get_top_scores(data):
+def get_top_scores():
     """Get top scores."""
     amount = int(ScriptSettings.TopSize)
     return Parent.GetTopCurrency(amount)
@@ -108,9 +108,13 @@ def get_top_scores(data):
 
 def send_top_response(data):
     """Top scores."""
+    position = len(data)
     entry = "{0}. {1} - {2}"
+    top_scores = []
 
     for key in data:
-        Parent.SendStreamMessage(key)
-        Parent.SendStreamMessage(data[key])
+        top_scores.insert(0, entry.format(position, key, data[key]))
+        position -= 1
+    
+    Parent.SendStreamMessage("\n".join(top_scores))
     return
