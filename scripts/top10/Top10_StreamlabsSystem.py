@@ -115,8 +115,8 @@ def send_top_response(data):
 
     sorted_data = sorted(data.items(), key=operator.itemgetter(1))
 
-    for entry in sorted_data:
-        top_scores.insert(0, entry.format(position, entry[0], entry[1]))
+    for row in sorted_data:
+        top_scores.insert(0, entry.format(position, row[0], row[1]))
         position -= 1
 
     Parent.SendStreamMessage("\n".join(top_scores))
