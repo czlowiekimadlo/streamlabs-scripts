@@ -8,6 +8,7 @@
 import codecs
 import json
 import os
+import operator
 
 
 # ---------------------------------------
@@ -112,9 +113,11 @@ def send_top_response(data):
     entry = "{0}. {1} - {2}"
     top_scores = []
 
-    for key in data:
-        top_scores.insert(0, entry.format(position, key, data[key]))
+    sorted_data = sorted(data.items(), key=operator.itemgetter(1))
+
+    for entry in sorted_data:
+        top_scores.insert(0, entry.format(position, entry[0], entry[1]))
         position -= 1
-    
+
     Parent.SendStreamMessage("\n".join(top_scores))
     return
